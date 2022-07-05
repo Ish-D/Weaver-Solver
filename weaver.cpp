@@ -5,12 +5,14 @@
 #include <vector>
 #include <list>
 
+// add edge to adjacency matrix
 void add_edge(std::vector<int> adj[], int src, int dest)
 {
     adj[src].push_back(dest);
     adj[dest].push_back(src);
 }
 
+// generic BFS
 bool BFS(std::vector<int> adj[], int src, int dest, int verts, int pred[], int dist[])
 {
     std::list<int> queue;
@@ -85,7 +87,7 @@ void printVec(std::vector<std::string>& vector) {
     }
 }
 
-
+// find all words in words4 that are within a letter of input word start
 std::vector<std::string> findSimilar(std::string start, std::map<std::string, int>& words4, std::set<std::string>& searched) {
     std::vector<std::string> similars;
 
@@ -107,12 +109,14 @@ std::vector<std::string> findSimilar(std::string start, std::map<std::string, in
     return similars;
 }
 
-
+// recursively generate points by going through all "connected" words using the findSimilar function 
+// 
 int buildGraph(std::vector<int> adj[], std::string start, std::map<std::string, int>& words4, std::set<std::string>& searched) {
     std::vector<std::string> similar = findSimilar(start, words4, searched);
 
     if (similar.size() == 0) {return -1;}
 
+    // remove duplicates from vector
     std::set<std::string> s (similar.begin(), similar.end());
     similar.assign(s.begin(), s.end());
     // printVec(similar);
@@ -150,6 +154,7 @@ int main() {
     words >> line;
 
     int index = 0;
+    // read words from words.txt into file
     while (!words.eof()) {
         words4.insert(std::pair<std::string, int>(line, index));
         words4Reverse.insert(std::pair<int, std::string>(index, line));
